@@ -29,11 +29,11 @@ function sendData(ws){
 
 	connection.query('SELECT * FROM health_data ORDER BY entryDate DESC LIMIT 1' ,function(err,rows,fields){
 		if(rows){
-				console.log(rows.length);
+				//console.log(rows.length);
 			for(var i = 0;i<rows.length;i++){
 
 					ws.send(rows[i].PBbpm +","+rows[i].SP02+','+rows[i].entryDate);
-					console.log(rows[i].PBbpm +","+rows[i].SP02+','+rows[i].entryDate);
+					//console.log(rows[i].PBbpm +","+rows[i].SP02+','+rows[i].entryDate);
 
 			}
 
