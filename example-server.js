@@ -21,7 +21,7 @@ var connection = mysql.createConnection({
 	password:'pi_sql',
 	database:'health_data'
 });
-connection.connect();
+
 function getData(currDate){
 	var data;
 
@@ -40,12 +40,14 @@ wss.on('connection', function(ws) {
         if (flags.binary) { return; }
         console.log('>>> ' + data);
         if (data == 'connect'){
-					connection.query('SELECT * FROM health_data; ',function(err,rows,fields){
+						connection.connect();
+						connection.query('SELECT * FROM health_data; ',function(err,rows,fields){
 						console.log(rows.length);/*
 						for(var i = 0;i<rows.length;i++){
 							ws.send(rows[i].PBpbm +","+rows[i].SP02);
 						}*/
-					});
+						});
+						connection.end();
 					//var time = new Date();
 					/*var new_data;
 					while(!done){
@@ -69,6 +71,6 @@ wss.on('connection', function(ws) {
 			done = true;
     });
 });
-connection.end();
+
 server.listen(8126);
 console.log('Listening on port 8126...');
