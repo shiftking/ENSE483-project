@@ -24,7 +24,7 @@ var connection = mysql.createConnection({
 connection.connect();
 function getData(currDate){
 	var data;
-	connection.query('SELECT * FROM health_data WHERE enrtyData > '+currDate,function(err,rows,fields){
+	connection.query('SELECT * FROM health_data ',function(err,rows,fields){
 		data = rows;
 	});
 	return data;
