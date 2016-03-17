@@ -22,13 +22,13 @@ var connection = mysql.createConnection({
 	database:'health_data'
 });
 connection.connect();
-function getData(Date currDate){
+function getData(currDate){
 	var data;
 	connection.query('SELECT * FROM health_data WHERE enrtyData > '+currDate,function(err,rows,fields){
 		data = rows;
 	});
 	return data;
-;}
+};
 connection.end();
 var WebSocketServer = require('ws').Server;
 var http = require('http');
