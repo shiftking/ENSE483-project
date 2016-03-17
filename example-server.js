@@ -46,7 +46,7 @@ wss.on('connection', function(ws) {
 						connection.query('SELECT * FROM health_data; ',function(err,rows,fields){
 						console.log(rows.length);
 						for(var i = 0;i<rows.length;i++){
-							ws.send(rows[i].PBpbm +","+rows[i].SP02);
+							ws.send(rows[i].PBbpm +","+rows[i].SP02);
 						}
 						});
 						connection.end();
@@ -60,7 +60,7 @@ wss.on('connection', function(ws) {
 						}
 						time = new Data();
 					}*/
-					
+
 				}else if(data=="disconnect"){
 					ws.close();
 				}
