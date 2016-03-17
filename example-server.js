@@ -80,6 +80,7 @@ wss.on('connection', function(ws) {
 			if(socketIndex >= 0){
 				connectionsArray.splice(socketIndex,1);
 			}
+			ws.close();
     });
 });
 
