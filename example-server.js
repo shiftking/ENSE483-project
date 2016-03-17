@@ -22,10 +22,22 @@ var connection = mysql.createConnection({
 	database:'health_data'
 });
 
-function getData(currDate){
-	var data;
+function sendData(){
 
-	return data;
+	var date = new Date();
+	connection.connect();
+	connection.query('SELECT * FROM health_data WHERE entryDate >= ;' + date,function(err,rows,fields){
+	if(rows){
+			console.log(rows.length);
+		for(var i = 0;i<rows.length;i++){
+			ws.send(rows[i].PBbpm +","+rows[i].SP02);
+		}
+
+		connection.end();
+	}else{
+		ws.send("no new data");
+	}
+
 };
 
 var WebSocketServer = require('ws').Server;
@@ -40,22 +52,12 @@ wss.on('connection', function(ws) {
         if (flags.binary) { return; }
         console.log('>>> ' + data);
         if (data == 'update'){
-					do{
-						var date = new Date();
-						connection.connect();
-						connection.query('SELECT * FROM health_data WHERE entryDate >= ;' + date,function(err,rows,fields){
-						if(rows){
-								console.log(rows.length);
-							for(var i = 0;i<rows.length;i++){
-								ws.send(rows[i].PBbpm +","+rows[i].SP02);
-							}
+					setInterval(sendData(),2000);
+				}
 
-							connection.end();
-						}else{
-							ws.send("no new data");
-						}
-						});
-					}while(!done);
+
+				});
+
 					//var time = new Date();
 					/*var new_data;
 					while(!done){
