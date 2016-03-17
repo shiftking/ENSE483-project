@@ -25,7 +25,7 @@ connection.connect();
 function sendData(ws){
 	var date1 = (new Date()).toISOString().substring(0, 19).replace('T', ' ');
 	var date2 = (new Date()).toISOString().substring(0, 19).replace('T', ' ');
-
+	console.log(date1);
 
 	connection.query('SELECT * FROM health_data WHERE entryDate < '+date1 ,function(err,rows,fields){
 		if(rows){
