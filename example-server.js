@@ -53,12 +53,10 @@ wss.on('connection', function(ws) {
         if (flags.binary) { return; }
         console.log('>>> ' + data);
         if (data == 'update'){
-					setInterval(sendData(ws),2000);
+					setInterval(sendData(ws),5000);
 				}else if(data=="disconnect"){
 					ws.close();
 				}
-
-
     });
     ws.on('close', function() {
       done = true;
