@@ -22,7 +22,7 @@ var connection = mysql.createConnection({
 	database:'health_data'
 });
 
-function sendData(){
+function sendData(ws){
 
 	var date = new Date();
 	connection.connect();
@@ -52,7 +52,7 @@ wss.on('connection', function(ws) {
         if (flags.binary) { return; }
         console.log('>>> ' + data);
         if (data == 'update'){
-					setInterval(sendData(),2000);
+					setInterval(sendData(ws),2000);
 				}
 
 
