@@ -49,11 +49,12 @@ wss.on('connection', function(ws) {
 							for(var i = 0;i<rows.length;i++){
 								ws.send(rows[i].PBbpm +","+rows[i].SP02);
 							}
-							});
+
 							connection.end();
 						}else{
 							ws.send("no new data");
 						}
+						});
 					//var time = new Date();
 					/*var new_data;
 					while(!done){
