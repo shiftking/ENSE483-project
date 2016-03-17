@@ -27,7 +27,7 @@ function getData(currDate){
 
 	return data;
 };
-connection.end();
+
 var WebSocketServer = require('ws').Server;
 var http = require('http');
 
@@ -69,5 +69,6 @@ wss.on('connection', function(ws) {
 			done = true;
     });
 });
+connection.end();
 server.listen(8126);
 console.log('Listening on port 8126...');
