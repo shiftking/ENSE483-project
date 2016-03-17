@@ -14,7 +14,7 @@
 */
 
 "use strict"; // http://ejohn.org/blog/ecmascript-5-strict-mode-json-and-more/
-var mysql = require('mysql');
+var mysql = require('mysql'),pollingTimer;
 var connection = mysql.createConnection({
 	host:'localhost',
 	user:'root',
@@ -36,11 +36,11 @@ function sendData(ws){
 		}else{
 			ws.send("no new data");
 		}
-
+		if(connectionsArray.length){
+			pollingTimer = setTimeout(sendData(ws),2000);
+		}
 	});
-	if(connectionsArray.length){
-		setTimeout(sendData(ws),2000);
-	}
+
 };
 
 var WebSocketServer = require('ws').Server;
@@ -58,7 +58,7 @@ wss.on('connection', function(ws) {
         if (data == 'update'){
 
 						sendData(ws);
-					
+
 				}else if(data=="disconnect"){
 					ws.close();
 				}
