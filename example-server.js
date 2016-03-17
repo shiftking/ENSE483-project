@@ -22,19 +22,19 @@ var connection = mysql.createConnection({
 	database:'health_data'
 });
 
-function sendData(ws){
+function sendData(){
 	var date = new Date();
 	connection.connect();
 	connection.query('SELECT * FROM health_data WHERE entryDate >= ;' + date,function(err,rows,fields){
 		if(rows){
 				console.log(rows.length);
 			for(var i = 0;i<rows.length;i++){
-				ws.send(rows[i].PBbpm +","+rows[i].SP02);
+				wss.send(rows[i].PBbpm +","+rows[i].SP02);
 			}
 
 
 		}else{
-			ws.send("no new data");
+			wss.send("no new data");
 		}
 		connection.end();
 	});
@@ -53,7 +53,7 @@ wss.on('connection', function(ws) {
         if (flags.binary) { return; }
         console.log('>>> ' + data);
         if (data == 'update'){
-					setInterval(sendData(ws),5000);
+					setInterval(sendData(),5000);
 				}else if(data=="disconnect"){
 					ws.close();
 				}
