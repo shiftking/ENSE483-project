@@ -27,15 +27,14 @@ function sendData(ws){
 	var date2 = (new Date()).toISOString().substring(0, 19).replace('T', ' ');
 
 
-	connection.query('SELECT * FROM health_data ORDER by entryDate DESC LIMIT 1' ,function(err,rows,fields){
+	connection.query('SELECT * FROM health_data WHERE entryDate < '+date1 ,function(err,rows,fields){
 		if(rows){
 				console.log(rows.length);
 			for(var i = 0;i<rows.length;i++){
-				if(rows[i].entryDate < date1){
-					ws.send("no new data");
-				}else{
+
 					ws.send(rows[i].PBbpm +","+rows[i].SP02);
-				}
+
+
 			}
 
 
