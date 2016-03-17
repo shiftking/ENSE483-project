@@ -23,9 +23,11 @@ var connection = mysql.createConnection({
 });
 connection.connect();
 function sendData(ws){
-	var date = new Date();
+	var date1 = (new Date()).toISOString().substring(0, 19).replace('T', ' ');
+	var date2 = (new Date()).toISOString().substring(0, 19).replace('T', ' ');
 
-	connection.query('SELECT * FROM health_data WHERE entryData >='+date,function(err,rows,fields){
+
+	connection.query('SELECT * FROM health_data WHERE entryData >='+date1 + && +"entryData <="+date2,function(err,rows,fields){
 		if(rows){
 				console.log(rows.length);
 			for(var i = 0;i<rows.length;i++){
