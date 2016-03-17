@@ -39,11 +39,11 @@ wss.on('connection', function(ws) {
     ws.on('message', function(data, flags) {
         if (flags.binary) { return; }
         console.log('>>> ' + data);
-        if (data == 'connect'){
+        if (data == 'update'){
 
 						var date = new Date();
 						connection.connect();
-						connection.query('SELECT * FROM health_data; ',function(err,rows,fields){
+						connection.query('SELECT * FROM health_data WHERE entryDate >= ;' + date,function(err,rows,fields){
 						console.log(rows.length);
 						for(var i = 0;i<rows.length;i++){
 							ws.send(rows[i].PBbpm +","+rows[i].SP02);
