@@ -32,7 +32,7 @@ function sendData(ws){
 				console.log(rows.length);
 			for(var i = 0;i<rows.length;i++){
 
-					ws.send();
+					ws.send(rows[i].PBbpm +","+rows[i].SP02+','+rows[i].entryDate);
 					console.log(rows[i].PBbpm +","+rows[i].SP02+','+rows[i].entryDate);
 
 			}
