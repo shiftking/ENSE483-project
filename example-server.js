@@ -24,9 +24,7 @@ var connection = mysql.createConnection({
 connection.connect();
 function getData(currDate){
 	var data;
-	connection.query('SELECT * FROM health_data ',function(err,rows,fields){
-		data = rows;
-	});
+
 	return data;
 };
 connection.end();
@@ -42,15 +40,23 @@ wss.on('connection', function(ws) {
         if (flags.binary) { return; }
         console.log('>>> ' + data);
         if (data == 'connect'){
-					var time = new Date();
-					var new_data;
+					connection.query('SELECT * FROM health_data ',function(err,rows,fields){
+						for(var i = 0;i<rows.length;i++){
+							ws.send(rows[i].PBpbm +","+rows[i].SP02);
+						}
+					});
+					//var time = new Date();
+					/*var new_data;
 					while(!done){
 						new_data = getData(time);
+
 						for(var i = 0;i<new_data.length;i++){
 							ws.send(new_data[i].PBpbm +","+new_data[i].SP02);
 						}
 						time = new Data();
-					}
+					}*/
+				}else if(data=="disconnect"){
+					ws.close();
 				}
 
 
