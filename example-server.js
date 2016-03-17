@@ -40,7 +40,7 @@ wss.on('connection', function(ws) {
         if (flags.binary) { return; }
         console.log('>>> ' + data);
         if (data == 'update'){
-					while(!done){
+					do{
 						var date = new Date();
 						connection.connect();
 						connection.query('SELECT * FROM health_data WHERE entryDate >= ;' + date,function(err,rows,fields){
@@ -55,7 +55,7 @@ wss.on('connection', function(ws) {
 							ws.send("no new data");
 						}
 						});
-					}
+					}while(!done);
 					//var time = new Date();
 					/*var new_data;
 					while(!done){
