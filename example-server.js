@@ -32,10 +32,11 @@ function sendData(ws){
 				ws.send(rows[i].PBbpm +","+rows[i].SP02);
 			}
 
-			connection.end();
+
 		}else{
 			ws.send("no new data");
 		}
+		connection.end();
 	});
 
 };
