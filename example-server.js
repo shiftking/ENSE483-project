@@ -44,12 +44,16 @@ wss.on('connection', function(ws) {
 						var date = new Date();
 						connection.connect();
 						connection.query('SELECT * FROM health_data WHERE entryDate >= ;' + date,function(err,rows,fields){
-						console.log(rows.length);
-						for(var i = 0;i<rows.length;i++){
-							ws.send(rows[i].PBbpm +","+rows[i].SP02);
+						if(rows){
+								console.log(rows.length);
+							for(var i = 0;i<rows.length;i++){
+								ws.send(rows[i].PBbpm +","+rows[i].SP02);
+							}
+							});
+							connection.end();
+						}else{
+							ws.send("no new data");
 						}
-						});
-						connection.end();
 					//var time = new Date();
 					/*var new_data;
 					while(!done){
