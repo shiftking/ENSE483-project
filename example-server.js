@@ -40,12 +40,14 @@ wss.on('connection', function(ws) {
         if (flags.binary) { return; }
         console.log('>>> ' + data);
         if (data == 'connect'){
+					while(!done){
+						var date = new Date();
 						connection.connect();
 						connection.query('SELECT * FROM health_data; ',function(err,rows,fields){
-						console.log(rows.length);/*
+						console.log(rows.length);
 						for(var i = 0;i<rows.length;i++){
 							ws.send(rows[i].PBpbm +","+rows[i].SP02);
-						}*/
+						}
 						});
 						connection.end();
 					//var time = new Date();
@@ -58,6 +60,7 @@ wss.on('connection', function(ws) {
 						}
 						time = new Data();
 					}*/
+					}
 				}else if(data=="disconnect"){
 					ws.close();
 				}
