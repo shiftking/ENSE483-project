@@ -52,8 +52,8 @@ wss.on('connection', function(ws) {
 						time = new Data();
 					}
 				}
-				}
-        if (data == 'hello') { console.log('<<< world'); ws.send('world'); }
+
+
     });
     ws.on('close', function() {
       done = true;
