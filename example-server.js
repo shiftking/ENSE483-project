@@ -27,7 +27,7 @@ function sendData(ws){
 	var date2 = (new Date()).toISOString().substring(0, 19).replace('T', ' ');
 
 
-	connection.query('SELECT * FROM health_data ORDER BY entryDate  LIMIT 1' ,function(err,rows,fields){
+	connection.query('SELECT * FROM health_data ORDER BY entryDate DESC LIMIT 1' ,function(err,rows,fields){
 		if(rows){
 				console.log(rows.length);
 			for(var i = 0;i<rows.length;i++){
