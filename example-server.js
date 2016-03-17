@@ -63,7 +63,7 @@ wss.on('connection', function(ws) {
         console.log('>>> ' + data);
         if (data == 'update'){
 
-						sendData(ws,date1);
+						sendData(ws);
 
 				}else if(data=="disconnect"){
 					ws.close();
