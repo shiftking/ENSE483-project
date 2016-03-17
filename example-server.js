@@ -22,12 +22,12 @@ var connection = mysql.createConnection({
 	database:'health_data'
 });
 connection.connect();
-function sendData(ws,date){
+function sendData(ws){
 
-	//var date2 = (new Date()).toISOString().substring(0, 19).replace('T', ' ');
+	var date = (new Date()).toISOString().substring(0, 19).replace('T', ' ');
 
 
-	connection.query('SELECT * FROM health_data WHERE entryDate >' date ,function(err,rows,fields){
+	connection.query('SELECT * FROM health_data WHERE entryDate >= "'+ date +'"',function(err,rows,fields){
 		if(rows){
 				//console.log(rows.length);
 			for(var i = 0;i<rows.length;i++){
@@ -42,7 +42,7 @@ function sendData(ws,date){
 			ws.send("no new data");
 		}
 		if(connectionsArray.length){
-			pollingTimer = setTimeout(sendData(ws,date),2000);
+			pollingTimer = setTimeout(sendData(ws),2000);
 		}
 	});
 
