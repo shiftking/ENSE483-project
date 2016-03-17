@@ -21,10 +21,10 @@ var connection = mysql.createConnection({
 	password:'pi_sql',
 	database:'health_data'
 });
-
+connection.connect();
 function sendData(ws){
 	var date = new Date();
-	connection.connect();
+
 	connection.query('SELECT * FROM health_data WHERE entryDate >= ;' + date,function(err,rows,fields){
 		if(rows){
 				console.log(rows.length);
@@ -36,9 +36,9 @@ function sendData(ws){
 		}else{
 			ws.send("no new data");
 		}
-		connection.end();
+		
 	});
-
+	setTimeout(sendData(ws),2000);
 };
 
 var WebSocketServer = require('ws').Server;
