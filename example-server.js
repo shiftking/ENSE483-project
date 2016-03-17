@@ -25,7 +25,7 @@ connection.connect();
 function sendData(ws){
 	var date = new Date();
 
-	connection.query('SELECT * FROM health_data;',function(err,rows,fields){
+	connection.query('SELECT * FROM health_data WHERE entryData >='+date,function(err,rows,fields){
 		if(rows){
 				console.log(rows.length);
 			for(var i = 0;i<rows.length;i++){
@@ -38,17 +38,20 @@ function sendData(ws){
 		}
 
 	});
-	setTimeout(sendData(ws),2000);
+	if(connectionsArray.length){
+		setTimeout(sendData(ws),2000);
+	}
 };
 
 var WebSocketServer = require('ws').Server;
 var http = require('http');
-
+var connectionsArray = [];
 var server = http.createServer();
 var wss = new WebSocketServer({server: server, path: '/foo'});
 wss.on('connection', function(ws) {
+		connectionsArray.push(ws);
     console.log('/foo connected');
-		var done = false;
+
     ws.on('message', function(data, flags) {
         if (flags.binary) { return; }
         console.log('>>> ' + data);
@@ -61,10 +64,14 @@ wss.on('connection', function(ws) {
 				}
     });
     ws.on('close', function() {
-      done = true;
+			var socketIndex = connectionsArray.indexOf(ws);
+			if(socketIndex >= 0){
+				connectionsArray.splice(socketIndex,1);
+			}
+
     });
     ws.on('error', function(e) {
-			done = true;
+
     });
 });
 
