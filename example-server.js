@@ -25,7 +25,7 @@ connection.connect();
 function sendData(ws){
 	var date = new Date();
 
-	connection.query('SELECT * FROM health_data WHERE entryDate >= ;' + date,function(err,rows,fields){
+	connection.query('SELECT * FROM health_data;' + date,function(err,rows,fields){
 		if(rows){
 				console.log(rows.length);
 			for(var i = 0;i<rows.length;i++){
@@ -36,7 +36,7 @@ function sendData(ws){
 		}else{
 			ws.send("no new data");
 		}
-		
+
 	});
 	setTimeout(sendData(ws),2000);
 };
