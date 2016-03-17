@@ -22,12 +22,12 @@ var connection = mysql.createConnection({
 	database:'health_data'
 });
 connection.connect();
-function sendData(ws){
-	var date1 = (new Date()).toISOString().substring(0, 19).replace('T', ' ');
-	var date2 = (new Date()).toISOString().substring(0, 19).replace('T', ' ');
+function sendData(ws,date){
+
+	//var date2 = (new Date()).toISOString().substring(0, 19).replace('T', ' ');
 
 
-	connection.query('SELECT * FROM health_data ORDER BY entryDate DESC LIMIT 1' ,function(err,rows,fields){
+	connection.query('SELECT * FROM health_data WHERE entryDate >' date ,function(err,rows,fields){
 		if(rows){
 				//console.log(rows.length);
 			for(var i = 0;i<rows.length;i++){
@@ -42,7 +42,7 @@ function sendData(ws){
 			ws.send("no new data");
 		}
 		if(connectionsArray.length){
-			pollingTimer = setTimeout(sendData(ws),2000);
+			pollingTimer = setTimeout(sendData(ws,date),2000);
 		}
 	});
 
@@ -58,11 +58,12 @@ wss.on('connection', function(ws) {
     console.log('/foo connected');
 
     ws.on('message', function(data, flags) {
+				var date1 = (new Date()).toISOString().substring(0, 19).replace('T', ' ');
         if (flags.binary) { return; }
         console.log('>>> ' + data);
         if (data == 'update'){
 
-						sendData(ws);
+						sendData(ws,date1);
 
 				}else if(data=="disconnect"){
 					ws.close();
