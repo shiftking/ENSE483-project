@@ -41,9 +41,10 @@ wss.on('connection', function(ws) {
         console.log('>>> ' + data);
         if (data == 'connect'){
 					connection.query('SELECT * FROM health_data ',function(err,rows,fields){
+						console.log(rows.length);/*
 						for(var i = 0;i<rows.length;i++){
 							ws.send(rows[i].PBpbm +","+rows[i].SP02);
-						}
+						}*/
 					});
 					//var time = new Date();
 					/*var new_data;
