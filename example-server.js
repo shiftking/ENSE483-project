@@ -27,12 +27,12 @@ function sendData(ws){
 	var date2 = (new Date()).toISOString().substring(0, 19).replace('T', ' ');
 	console.log(date1);
 
-	connection.query('SELECT * FROM health_data WHERE entryDate < '+date1 ,function(err,rows,fields){
+	connection.query('SELECT * FROM health_data ORDER BY entryDate DESC LIMIT 1' ,function(err,rows,fields){
 		if(rows){
 				console.log(rows.length);
 			for(var i = 0;i<rows.length;i++){
 
-					ws.send(rows[i].PBbpm +","+rows[i].SP02);
+					ws.send(rows[i].PBbpm +","+rows[i].SP02+','rows[i].entryDate);
 
 
 			}
