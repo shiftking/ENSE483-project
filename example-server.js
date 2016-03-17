@@ -22,14 +22,14 @@ var connection = mysql.createConnection({
 	database:'health_data'
 });
 connection.connect();
-connection.query('SELECT * FROM health_data',function(err,rows,fields){
-	if(err) throw err;
-	for(var i = 0;i<rows.length;i++){
-		
-		console.log(rows[i].PBbpm);
-	}
-});
-connection.end();	
+function getData(Date currDate){
+	var data;
+	connection.query('SELECT * FROM health_data WHERE enrtyData > '+currDate,function(err,rows,fields){
+		data = rows;
+	});
+	return data;
+;}
+connection.end();
 var WebSocketServer = require('ws').Server;
 var http = require('http');
 
@@ -37,17 +37,29 @@ var server = http.createServer();
 var wss = new WebSocketServer({server: server, path: '/foo'});
 wss.on('connection', function(ws) {
     console.log('/foo connected');
+		var done = false;
     ws.on('message', function(data, flags) {
         if (flags.binary) { return; }
         console.log('>>> ' + data);
-        if (data == 'chow') { console.log('<<< he is a faggot'); ws.send('chow is a faggot'); 
+        if (data == 'connect'){
+					var time = new Date();
+					var new_data;
+					while(!done){
+						new_data = getData(time);
+						for(var i = 0;i<new_data.length;i++){
+							ws.send(new_data[i].PBpbm +","+new_data[i].SP02);
+						}
+						time = new Data();
+					}
+				}
 				}
         if (data == 'hello') { console.log('<<< world'); ws.send('world'); }
     });
     ws.on('close', function() {
-      console.log('Connection closed!');
+      done = true;
     });
     ws.on('error', function(e) {
+			done = true;
     });
 });
 server.listen(8126);
