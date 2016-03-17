@@ -40,7 +40,7 @@ wss.on('connection', function(ws) {
         if (flags.binary) { return; }
         console.log('>>> ' + data);
         if (data == 'connect'){
-					while(!done){
+
 						var date = new Date();
 						connection.connect();
 						connection.query('SELECT * FROM health_data; ',function(err,rows,fields){
@@ -60,7 +60,7 @@ wss.on('connection', function(ws) {
 						}
 						time = new Data();
 					}*/
-					}
+					
 				}else if(data=="disconnect"){
 					ws.close();
 				}
