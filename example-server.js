@@ -38,7 +38,7 @@ function sendData(ws){
 		}
 	}
 
-};
+}
 
 var WebSocketServer = require('ws').Server;
 var http = require('http');
