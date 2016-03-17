@@ -36,9 +36,9 @@ function sendData(ws){
 		}else{
 			ws.send("no new data");
 		}
-	}
+	});
 
-}
+};
 
 var WebSocketServer = require('ws').Server;
 var http = require('http');
@@ -53,22 +53,6 @@ wss.on('connection', function(ws) {
         console.log('>>> ' + data);
         if (data == 'update'){
 					setInterval(sendData(ws),2000);
-				}
-
-
-				});
-
-					//var time = new Date();
-					/*var new_data;
-					while(!done){
-						new_data = getData(time);
-
-						for(var i = 0;i<new_data.length;i++){
-							ws.send(new_data[i].PBpbm +","+new_data[i].SP02);
-						}
-						time = new Data();
-					}*/
-
 				}else if(data=="disconnect"){
 					ws.close();
 				}
