@@ -55,7 +55,7 @@ var WebSocketServer = require('ws').Server;
 var http = require('http');
 var connectionsArray = [];
 var ws_server = http.createServer();
-var http_server = http.createServer(createServer(function (req, res) {
+var http_server = http.createServer(function (req, res) {
   res.writeHead(200, {'Content-Type': 'text/plain'});
   res.end(index);
 }).listen(9615);
