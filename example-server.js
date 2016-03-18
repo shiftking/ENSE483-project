@@ -18,7 +18,7 @@ var mysql = require('mysql'),pollingTimer;
 var express = require('express');
 var app = express();
 var path = require("path");
-var index = fs.readFileSync('index.html');
+
 var connection = mysql.createConnection({
 	host:'localhost',
 	user:'root',
