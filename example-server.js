@@ -92,5 +92,5 @@ wss.on('connection', function(ws) {
     });
 });
 
-server.listen(8126);
+ws_server.listen(8126);
 console.log('Listening on port 8126...');
