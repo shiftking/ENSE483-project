@@ -44,7 +44,7 @@ string user = "root";
 string pw = "pi_sql";
 string database = "health_data";
 string BP_s,SP_s;
-int bp,sp;
+int bp,sp,pre_bp,pre_sp;
 
 MYSQL *connection,mysql;
 void readPulsioximeter();
@@ -61,8 +61,8 @@ void loop() {
 
   bp = eHealth.getBPM();
   sp = eHealth.getOxygenSaturation();
-	if(bp > 300){
-		bp = 0;
+	if(bp - pre_bp > 20){
+		bp = pre_bp;
 	}
   stringstream s_bp;
   s_bp  << bp;
@@ -80,7 +80,7 @@ void loop() {
   printf("=============================\n");
   delay(500);
   //delay(500);
-
+	pre_bp = bp;
 }
 
 void readPulsioximeter(){

@@ -15,12 +15,15 @@
 
 "use strict"; // http://ejohn.org/blog/ecmascript-5-strict-mode-json-and-more/
 var mysql = require('mysql'),pollingTimer;
+var fs = require('fs');
+var index = fs.readFileSync('index.html');
 var connection = mysql.createConnection({
 	host:'localhost',
 	user:'root',
 	password:'pi_sql',
 	database:'health_data'
 });
+
 connection.connect();
 function sendData(ws){
 
@@ -51,8 +54,12 @@ function sendData(ws){
 var WebSocketServer = require('ws').Server;
 var http = require('http');
 var connectionsArray = [];
-var server = http.createServer();
-var wss = new WebSocketServer({server: server, path: '/foo'});
+var ws_server = http.createServer();
+var http_server = http.createServer(createServer(function (req, res) {
+  res.writeHead(200, {'Content-Type': 'text/plain'});
+  res.end(index);
+}).listen(9615);
+var wss = new WebSocketServer({server: ws_server, path: '/foo'});
 wss.on('connection', function(ws) {
 		connectionsArray.push(ws);
     console.log('/foo connected');
