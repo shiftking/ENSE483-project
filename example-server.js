@@ -15,7 +15,9 @@
 
 "use strict"; // http://ejohn.org/blog/ecmascript-5-strict-mode-json-and-more/
 var mysql = require('mysql'),pollingTimer;
-var fs = require('fs');
+var express = require('express');
+var app = express();
+var path = require("path");
 var index = fs.readFileSync('index.html');
 var connection = mysql.createConnection({
 	host:'localhost',
@@ -55,10 +57,10 @@ var WebSocketServer = require('ws').Server;
 var http = require('http');
 var connectionsArray = [];
 var ws_server = http.createServer();
-var http_server = http.createServer(function (req, res) {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end(index);
-}).listen(9615);
+app.get('/',function(req,res){
+	res.sendFile(path.join(__dirname+'/index.html'));
+});
+app.listen(3000);
 var wss = new WebSocketServer({server: ws_server, path: '/foo'});
 wss.on('connection', function(ws) {
 		connectionsArray.push(ws);
