@@ -32,7 +32,7 @@ function sendData(ws){
 				//console.log(rows.length);
 			for(var i = 0;i<rows.length;i++){
 
-					ws.send(rows[i].PBbpm);
+					ws.send(rows[i].PBbpm.toString());
 					console.log(rows[i].PBbpm);
 
 			}
