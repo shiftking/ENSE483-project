@@ -1,15 +1,15 @@
 /*
  *  eHealth sensor platform for Arduino and Raspberry from Cooking-hacks.
  *
- *  Description: "The e-Health Sensor Shield allows Arduino and Raspberry Pi 
- *  users to perform biometric and medical applications by using 9 different 
+ *  Description: "The e-Health Sensor Shield allows Arduino and Raspberry Pi
+ *  users to perform biometric and medical applications by using 9 different
  *  sensors: Pulse and Oxygen in Blood Sensor (SPO2), Airflow Sensor (Breathing),
  *  Body Temperature, Electrocardiogram Sensor (ECG), Glucometer, Galvanic Skin
- *  Response Sensor (GSR - Sweating), Blood Pressure (Sphygmomanometer) and 
+ *  Response Sensor (GSR - Sweating), Blood Pressure (Sphygmomanometer) and
  *  Patient Position (Accelerometer)."
  *
  *  In this example we read the values in volts of EMG sensor and show
- *  these values in the serial monitor. 
+ *  these values in the serial monitor.
  *
  *  Copyright (C) 2012 Libelium Comunicaciones Distribuidas S.L.
  *  http://www.libelium.com
@@ -49,18 +49,21 @@ int bp,sp;
 MYSQL *connection,mysql;
 void readPulsioximeter();
 
-void setup() { 
+void setup() {
 
 	eHealth.initPulsioximeter();
 	//Attach the inttruptions for using the pulsioximeter.
 	attachInterrupt(6, readPulsioximeter, RISING);
-    
+
 }
 
-void loop() { 
-  
+void loop() {
+
   bp = eHealth.getBPM();
   sp = eHealth.getOxygenSaturation();
+	if(bp > 300){
+		bp = 0;
+	}
   stringstream s_bp;
   s_bp  << bp;
   stringstream s_sp;
@@ -70,22 +73,22 @@ void loop() {
   string response = "INSERT into health_data(PBbpm,SP02) VALUES('"+BP_s+"','"+SP_s+"')";
   mysql_query(connection,response.c_str());
   //delay(500);
-  printf("PRbpm : %d",eHealth.getBPM()); 
+  printf("PRbpm : %d",eHealth.getBPM());
 
   printf("    %%SPo2 : %d\n", eHealth.getOxygenSaturation());
 
   printf("=============================\n");
-  delay(500);  
+  delay(500);
   //delay(500);
-  
+
 }
 
-void readPulsioximeter(){  
+void readPulsioximeter(){
 
   cont ++;
-  
+
   if (cont == 50) { //Get only of one 50 measures to reduce the latency
-    eHealth.readPulsioximeter();  
+    eHealth.readPulsioximeter();
     cont = 0;
   }
 }
@@ -96,7 +99,7 @@ int main (){
 	if(!mysql_real_connect(connection,server.c_str(),user.c_str(),pw.c_str(),database.c_str(),0,NULL,0)){
 		printf("could not setup server");
 		printf("\n");
-		exit(1);	
+		exit(1);
 	}else{
 		printf("Was able to connect to database");
 		printf("\n");
