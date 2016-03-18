@@ -32,7 +32,7 @@ function sendData(ws){
 				//console.log(rows.length);
 			//for(var i = 0;i<rows.length;i++){
 
-					ws.send(rows[0].PBbpm +","+rows[0].SP02+','+rows[0].entryDate);
+					ws.send(rows[0].PBbpm);
 					//console.log(rows[i].PBbpm +","+rows[i].SP02+','+rows[i].entryDate);
 
 			//}
@@ -42,7 +42,7 @@ function sendData(ws){
 			ws.send("no new data");
 		}
 		if(connectionsArray.length){
-			pollingTimer = setTimeout(sendData(ws),2000);
+			pollingTimer = setTimeout(sendData(ws),3000);
 		}
 	});
 
