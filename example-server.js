@@ -65,7 +65,7 @@ http.createServer(function(request, response) {
    console.log("Request for " + pathname + " received.");
 
    // Read the requested file content from file system
-   fs.readFile('../index.html', function (err, data) {
+   fs.readFile(pathname.substr(1), function (err, data) {
       if (err) {
          console.log(err);
          // HTTP Status: 404 : NOT FOUND
